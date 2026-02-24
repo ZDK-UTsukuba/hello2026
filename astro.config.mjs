@@ -8,6 +8,6 @@ export default defineConfig({
   site: "https://hello.zdk.tsukuba.ac.jp",
   integrations: [sitemap()],
   image: {
-    domains: ["img.esa.io"],
+    domains: ["img.esa.io", "www.stb.tsukuba.ac.jp"],
   },
 });
