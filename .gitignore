@@ -22,3 +22,11 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude Code
+.claude/
+
+# OpenAI Codex / ChatGPT
+.codex/
+.openai/
+
