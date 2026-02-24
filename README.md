@@ -1,8 +1,8 @@
-# 新入生情報Web 2025 フロントエンド
+# 新入生情報Web 2026
 
-![GitHub License](https://img.shields.io/github/license/ZDK-UTsukuba/hello2025-frontend)
+![GitHub License](https://img.shields.io/github/license/ZDK-UTsukuba/hello2026)
 
-2025年度版筑波大学の学生宿舎に入居する新入生向けの情報ポータル（春からつくばで新生活を始めるあなたに2025）のフロントエンド
+2025年度版筑波大学の学生宿舎に入居する新入生向けの情報ポータル（春からつくばで新生活を始めるあなたに2026）
 
 ## 開発環境セットアップ
 
