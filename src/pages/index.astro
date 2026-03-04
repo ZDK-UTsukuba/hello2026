@@ -11,7 +11,10 @@ const posts = response.posts;
 const faqPost = await fetchPost(import.meta.env.ESA_FAQ_NUMBER);
 const faqFirstImg = await getFirstImg(faqPost);
 const faqImg = faqFirstImg;
-const blogPosts = posts.filter((post) => post.number !== faqPost.number);
+// const blogPosts = posts.filter((post) => post.number !== faqPost.number);
+const blogPosts = posts.filter(
+  (post) => post.number !== faqPost.number && !post.wip
+);
 ---
 
 <Layout>
