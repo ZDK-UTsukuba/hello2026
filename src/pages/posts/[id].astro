@@ -45,10 +45,16 @@ const articleHtml = await unified()
 
 <Layout pageTitle={post.name} jsonld={{ attype: "Article" }}>
   <h1 class="title">{post.name}</h1>
-  <Toc />
-  <article>
-    <StyledHtml html={articleHtml.toString()} />
-  </article>
+{!post.wip ? (
+  <>
+    <Toc />
+    <article>
+      <StyledHtml html={articleHtml.toString()} />
+    </article>
+  </>
+) : (
+  <p>この記事はWIP（作成中）です。</p>
+)}
 </Layout>
 
 <style>
