@@ -1,0 +1,24 @@
+---
+import StyledHtml from "./StyledHtml.astro";
+---
+
+<section class="about-section">
+  <h2 class="heading">新入生情報Webとは</h2>
+  <StyledHtml html={`
+    <p>
+    hogehogefugafuga<br />
+    新入生に向けた情報発信を行なっているwebサイトｽﾞﾗ<br />
+    といっても、新入生以外に向けての、在学生にも役立つ情報がたくさんあるﾉﾝ
+    </p>
+  `} />
+</section>
+
+<style>
+  .heading {
+    font-size: 1.5rem;
+    padding-inline: 11px;
+    padding-block: 0.1rem;
+    border-inline-start: 7px solid var(--theme-color-accent);
+    border-block-end: 1px solid var(--border-color);
+  }
+</style>
