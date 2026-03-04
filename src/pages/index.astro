@@ -5,6 +5,7 @@ import ArticleCard from "../components/ArticleCard.astro";
 import { getFirstImg } from "../esa-utils/thumbnail";
 import { fetchPost } from "../esa-utils/fetch";
 import Card from "../components/Card.astro";
+import StyledHtml from "../components/StyledHtml.astro";
 
 const response = await fetchPosts();
 const posts = response.posts;
@@ -16,6 +17,14 @@ const blogPosts = posts.filter((post) => post.number !== faqPost.number);
 
 <Layout>
   <div class="card-container">
+    <h2 class="heading">新入生情報Webとは</h2>
+    <StyledHtml html={`
+      <p>
+      hogehogefugafuga<br />
+      新入生に向けた情報発信を行なっているwebサイトｽﾞﾗ<br />
+      といっても、新入生以外に向けての、在学生にも役立つ情報がたくさんあるﾉﾝ
+      </p>
+    `} />
     <h2 class="heading">記事一覧</h2>
     {blogPosts.map((post) => <ArticleCard post={post} />)}
     <h2 class="heading">これってどうなの？</h2>
