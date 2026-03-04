@@ -1,17 +1,23 @@
 ---
 import { Image } from "astro:assets";
 import Icon from "../../public/YN-icon.png";
+import TagList from "./TagList.astro";
+
 export interface Props {
   href: string | URL;
   title: string;
   imgSrc: string | undefined;
+  tags?: string[];
 }
-const { href, title, imgSrc } = Astro.props;
+const { href, title, imgSrc, tags } = Astro.props;
 const useFallbackImage = imgSrc === undefined || imgSrc === "";
 ---
 
 <a class="card" href={href}>
-  <h3 class="card-text">{title}</h3>
+  <div>
+    <h3 class="card-text">{title}</h3>
+    {tags && <TagList tags={tags} isLink={false} />}
+  </div>
   {
     useFallbackImage ? (
       <div class="fallback-bg">
