@@ -6,6 +6,13 @@ import { getFirstImg } from "../esa-utils/thumbnail";
 import { fetchPost } from "../esa-utils/fetch";
 import Card from "../components/Card.astro";
 
+console.log(
+  JSON.stringify({
+    ESA_FAQ_NUMBER: import.meta.env.ESA_FAQ_NUMBER,
+    ESA_POST_CATEGORY: import.meta.env.ESA_POST_CATEGORY,
+    ESA_ENDPOINT: import.meta.env.ESA_ENDPOINT,
+  }),
+);
 const response = await fetchPosts();
 const posts = response.posts;
 const faqPost = await fetchPost(import.meta.env.ESA_FAQ_NUMBER);
