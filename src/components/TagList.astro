@@ -1,10 +1,9 @@
 ---
 export interface Props {
   tags: string[];
-  isLink?: boolean;
 }
 
-const { tags, isLink = true } = Astro.props;
+const { tags } = Astro.props;
 ---
 
 <div class="tag-outer">
@@ -13,7 +12,7 @@ const { tags, isLink = true } = Astro.props;
       {
         tags.map((tag) => (
           <li class="tag-item">
-            {isLink ? <a href={`/tags/${tag}`}>{tag}</a> : <span>{tag}</span>}
+            <a href={`/tags/${tag}`}>{tag}</a>
           </li>
         ))
       }
@@ -41,6 +40,7 @@ const { tags, isLink = true } = Astro.props;
     border: solid 1px var(--border-color);
     border-radius: 1rem;
     padding: 0.1rem 0.5rem;
+    z-index: 2;
   }
 
   .tag-item:hover {
