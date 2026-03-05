@@ -19,9 +19,26 @@ export async function getStaticPaths() {
 
 const { tag } = Astro.props;
 const blogPosts = posts.filter((post) => post.tags.includes(tag));
+
+const collectionPageJsonld = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `#${tag} の記事一覧`,
+  url: `${Astro.site}tags/${tag}`,
+  inLanguage: "ja-JP",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: blogPosts.map((post, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: post.name,
+      url: `${Astro.site}posts/${post.number}`,
+    })),
+  },
+};
 ---
 
-<Layout>
+<Layout pageTitle={`#${tag} の記事一覧`} jsonldExtra={collectionPageJsonld}>
   <div class="card-container">
     <h2 class="heading">#{tag} の記事一覧</h2>
     {blogPosts.map((post) => <ArticleCard post={post} />)}
