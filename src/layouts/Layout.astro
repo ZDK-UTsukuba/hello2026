@@ -116,9 +116,20 @@ const effectiveJsonld = jsonldExtra
     <meta name="twitter:card" content={metadata.og.twitter.card} />
     <meta property="twitter:site" content={metadata.og.twitter.site} />
     <meta property="twitter:creator" content={metadata.og.twitter.creator} />
-    {effectiveJsonld
-      ? <script is:inline type="application/ld+json" set:html={effectiveJsonld} />
-      : <script is:inline type="application/ld+json" set:html={jsonldStringfy} />
+    {
+      effectiveJsonld ? (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={effectiveJsonld}
+        />
+      ) : (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={jsonldStringfy}
+        />
+      )
     }
   </head>
   <body>
