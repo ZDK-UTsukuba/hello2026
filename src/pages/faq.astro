@@ -7,8 +7,9 @@ import Layout from "../layouts/Layout.astro";
 import Toc from "../components/Toc.astro";
 import { getUniqueHashes } from "../esa-utils/hash";
 import StyledHtml from "../components/StyledHtml.astro";
+import * as env from '../env';
 
-const faqPost = await fetchPost(import.meta.env.ESA_FAQ_NUMBER);
+const faqPost = await fetchPost(env.esa.faqNumber);
 const faqNodes = unified().use(remarkParse).parse(faqPost.body_md);
 const faqs = await parseFaqs(faqNodes);
 console.dir(faqs);

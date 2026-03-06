@@ -1,3 +1,4 @@
+import * as env from '../env';
 import type { Post } from "./models";
 
 /**
@@ -6,7 +7,7 @@ import type { Post } from "./models";
 function fetchFromEsa(inputs: RequestInfo | URL) {
   return fetch(inputs, {
     headers: {
-      Authorization: `Bearer ${import.meta.env.ESA_TOKEN}`,
+      Authorization: `Bearer ${env.esa.token}`,
     },
   });
 }
@@ -21,13 +22,13 @@ interface PostsResponse {
  * @returns 記事一覧
  */
 export async function fetchPosts(): Promise<PostsResponse> {
-  if (import.meta.env.ESA_MOCK) {
+  if (env.esa.mock) {
     const { MOCK_POSTS } = await import("./mock-data");
     return { posts: MOCK_POSTS, total_count: MOCK_POSTS.length };
   }
 
-  const urlBase = import.meta.env.ESA_ENDPOINT;
-  const category = import.meta.env.ESA_POST_CATEGORY;
+  const urlBase = env.esa.endpoint;
+  const category = env.esa.postCategory;
 
   const url = new URL(`${urlBase}/posts`);
   url.searchParams.append("q", `in:${category}`);
@@ -42,14 +43,14 @@ export async function fetchPosts(): Promise<PostsResponse> {
  * @returns 記事データ
  */
 export async function fetchPost(postNumber: number): Promise<Post> {
-  if (import.meta.env.ESA_MOCK) {
+  if (env.esa.mock) {
     const { MOCK_POSTS } = await import("./mock-data");
     const post = MOCK_POSTS.find((p) => p.number === Number(postNumber));
     if (!post) throw new Error(`Mock post not found: ${postNumber}`);
     return post;
   }
 
-  const urlBase = import.meta.env.ESA_ENDPOINT;
+  const urlBase = env.esa.endpoint;
 
   const url = new URL(`${urlBase}/posts/${postNumber}`);
 
