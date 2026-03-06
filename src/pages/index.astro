@@ -5,7 +5,7 @@ import ArticleCard from "../components/ArticleCard.astro";
 import { getFirstImg } from "../esa-utils/thumbnail";
 import { fetchPost } from "../esa-utils/fetch";
 import Card from "../components/Card.astro";
-import * as env from '../env';
+import * as env from "../env";
 
 const response = await fetchPosts();
 const posts = response.posts;

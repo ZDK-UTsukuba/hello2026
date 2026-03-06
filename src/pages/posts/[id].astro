@@ -12,7 +12,7 @@ import StyledHtml from "../../components/StyledHtml.astro";
 import Toc from "../../components/Toc.astro";
 import { detailsContentMarker } from "../../esa-utils/details-content-marker";
 import { externalLinkReplacer } from "../../esa-utils/external-link-replacer";
-import * as env from '../../env';
+import * as env from "../../env";
 
 /**
  * 動的にページを生成するときに必須の関数
@@ -22,9 +22,7 @@ import * as env from '../../env';
 export async function getStaticPaths() {
   const response = await fetchPosts();
   const posts = response.posts;
-  const blogPosts = posts.filter(
-    (post) => post.number !== env.esa.faqNumber,
-  );
+  const blogPosts = posts.filter((post) => post.number !== env.esa.faqNumber);
   const paths = blogPosts.map((post) => ({
     params: { id: post.number },
     props: { post: post },
