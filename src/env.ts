@@ -9,7 +9,6 @@ if (
   !Number.isInteger(esaFaqNumber) ||
   esaFaqNumber <= 0
 ) {
-  console.error("Invalid ESA_FAQ_NUMBER:", import.meta.env.ESA_FAQ_NUMBER);
   throw new Error("ESA_FAQ_NUMBER must be an integer");
 }
 
