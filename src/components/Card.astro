@@ -1,31 +1,44 @@
 ---
 import { Image } from "astro:assets";
 import Icon from "../../public/YN-icon.png";
+import TagList from "./TagList.astro";
+
 export interface Props {
   href: string | URL;
   title: string;
   imgSrc: string | undefined;
+  tags?: string[];
 }
-const { href, title, imgSrc } = Astro.props;
+const { href, title, imgSrc, tags } = Astro.props;
 const useFallbackImage = imgSrc === undefined || imgSrc === "";
 ---
 
-<a class="card" href={href}>
-  <h3 class="card-text">{title}</h3>
-  {
-    useFallbackImage ? (
-      <div class="fallback-bg">
-        <div class="fallback-thumbnail">
-          <Image class="fallback-icon" src={Icon} alt="" />
+<div class="card-outer">
+  <a class="card-link" href={href}> </a>
+  <div class="card">
+    <div>
+      <h3 class="card-text">{title}</h3>
+      {tags && <TagList tags={tags} />}
+    </div>
+    {
+      useFallbackImage ? (
+        <div class="fallback-bg">
+          <div class="fallback-thumbnail">
+            <Image class="fallback-icon" src={Icon} alt="" />
+          </div>
         </div>
-      </div>
-    ) : (
-      <img class="thumbnail" src={imgSrc} alt="" />
-    )
-  }
-</a>
+      ) : (
+        <img class="thumbnail" src={imgSrc} alt="" />
+      )
+    }
+  </div>
+</div>
 
 <style>
+  .card-outer {
+    width: 100%;
+    position: relative;
+  }
   .card {
     display: flex;
     justify-content: space-between;
@@ -34,12 +47,19 @@ const useFallbackImage = imgSrc === undefined || imgSrc === "";
     border-radius: 8px;
     text-decoration: none;
     color: var(--text-color);
-    &:visited {
-      color: var(--visited);
-    }
-    &:hover {
-      background-color: var(--slight-accent);
-    }
+  }
+  .card-link {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .card-link:visited + .card {
+    color: var(--visited);
+  }
+  .card-link:hover + .card {
+    background-color: var(--slight-accent);
   }
   .card-text {
     margin-inline: 0.8rem;

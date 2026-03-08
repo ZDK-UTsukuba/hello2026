@@ -1,0 +1,62 @@
+---
+import { fetchPosts } from "../../esa-utils/fetch";
+import Layout from "../../layouts/Layout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+
+const response = await fetchPosts();
+const posts = response.posts;
+
+export async function getStaticPaths() {
+  const response = await fetchPosts();
+  const posts = response.posts;
+  const tags = [...new Set(posts.flatMap((post) => post.tags))];
+  const paths = tags.map((tag) => ({
+    params: { tag: tag },
+    props: { tag: tag },
+  }));
+  return paths;
+}
+
+const { tag } = Astro.props;
+const blogPosts = posts.filter((post) => post.tags.includes(tag));
+
+const collectionPageJsonld = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `#${tag} の記事一覧`,
+  url: `${Astro.site}tags/${tag}`,
+  inLanguage: "ja-JP",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: blogPosts.map((post, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: post.name,
+      url: `${Astro.site}posts/${post.number}`,
+    })),
+  },
+};
+---
+
+<Layout pageTitle={`#${tag} の記事一覧`} jsonldExtra={collectionPageJsonld}>
+  <div class="card-container">
+    <h2 class="heading">#{tag} の記事一覧</h2>
+    {blogPosts.map((post) => <ArticleCard post={post} />)}
+  </div>
+</Layout>
+
+<style>
+  .heading {
+    font-size: 1.5rem;
+    padding-inline: 11px;
+    padding-block: 0.1rem;
+    border-inline-start: 7px solid var(--theme-color-accent);
+    border-block-end: 1px solid var(--border-color);
+  }
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    gap: 0.5rem;
+  }
+</style>

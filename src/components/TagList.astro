@@ -1,0 +1,54 @@
+---
+export interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="tag-outer">
+  <nav class="tag-nav">
+    <ul class="tag-list">
+      {
+        tags.map((tag) => (
+          <li class="tag-item">
+            <a href={`/tags/${tag}`}>{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
+
+<style>
+  .tag-outer {
+    margin-inline: 11px;
+    margin-block: 0.5rem;
+  }
+  .tag-nav {
+  }
+  .tag-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-flow: wrap row;
+    list-style: none;
+    padding: 0;
+  }
+  .tag-item {
+    font-size: 0.9rem;
+    background: var(--bg-color);
+    border: solid 1px var(--border-color);
+    border-radius: 1rem;
+    padding: 0.1rem 0.5rem;
+    z-index: 2;
+  }
+
+  .tag-item:hover {
+    background: var(--slight-accent);
+    cursor: pointer;
+  }
+  .tag-item a {
+    color: var(--theme-color);
+    text-decoration: none;
+  }
+</style>

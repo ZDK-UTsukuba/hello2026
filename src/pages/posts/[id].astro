@@ -12,6 +12,7 @@ import StyledHtml from "../../components/StyledHtml.astro";
 import Toc from "../../components/Toc.astro";
 import { detailsContentMarker } from "../../esa-utils/details-content-marker";
 import { externalLinkReplacer } from "../../esa-utils/external-link-replacer";
+import TagList from "../../components/TagList.astro";
 
 /**
  * 動的にページを生成するときに必須の関数
@@ -45,6 +46,7 @@ const articleHtml = await unified()
 
 <Layout pageTitle={post.name} jsonld={{ attype: "Article" }}>
   <h1 class="title">{post.name}</h1>
+  <TagList tags={post.tags} />
   {
     !post.wip ? (
       <>
