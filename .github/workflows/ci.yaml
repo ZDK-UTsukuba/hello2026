@@ -8,9 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          cache: npm
-      - run: npm ci
+      - run: npm install
       - run: npm run astro check
 
   lint:
@@ -18,7 +16,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with:
-          cache: npm
-      - run: npm ci
+      - run: npm install
       - run: npm run lint

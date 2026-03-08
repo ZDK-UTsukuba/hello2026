@@ -1,8 +1,8 @@
-# 新入生情報Web 2025 フロントエンド
+# 新入生情報Web 2026
 
-![GitHub License](https://img.shields.io/github/license/ZDK-UTsukuba/hello2025-frontend)
+![GitHub License](https://img.shields.io/github/license/ZDK-UTsukuba/hello2026)
 
-2025年度版筑波大学の学生宿舎に入居する新入生向けの情報ポータル（春からつくばで新生活を始めるあなたに2025）のフロントエンド
+2025年度版筑波大学の学生宿舎に入居する新入生向けの情報ポータル（春からつくばで新生活を始めるあなたに2026）
 
 ## 開発環境セットアップ
 
@@ -20,6 +20,9 @@
 2. `git clone`をする
 3. `npm install`をする
 4. `npm run dev`が動作することを確認する
+
+- 環境変数の設定に失敗する場合は、モックデータを返す`npm run dev:mock`で確認する
+
 5. （機能を追加する場合は）Issueを立て、それに対応したブランチを生やし開発する
 
 - Issueを立てる際は対応を行う人を適宜アサインし、誰が対応しているのかを分かりやすくする

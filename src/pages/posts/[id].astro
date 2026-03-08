@@ -12,6 +12,8 @@ import StyledHtml from "../../components/StyledHtml.astro";
 import Toc from "../../components/Toc.astro";
 import { detailsContentMarker } from "../../esa-utils/details-content-marker";
 import { externalLinkReplacer } from "../../esa-utils/external-link-replacer";
+import * as env from "../../env";
+import TagList from "../../components/TagList.astro";
 
 /**
  * 動的にページを生成するときに必須の関数
@@ -21,9 +23,7 @@ import { externalLinkReplacer } from "../../esa-utils/external-link-replacer";
 export async function getStaticPaths() {
   const response = await fetchPosts();
   const posts = response.posts;
-  const blogPosts = posts.filter(
-    (post) => post.number !== import.meta.env.ESA_FAQ_NUMBER,
-  );
+  const blogPosts = posts.filter((post) => post.number !== env.esa.faqNumber);
   const paths = blogPosts.map((post) => ({
     params: { id: post.number },
     props: { post: post },
@@ -45,10 +45,19 @@ const articleHtml = await unified()
 
 <Layout pageTitle={post.name} jsonld={{ attype: "Article" }}>
   <h1 class="title">{post.name}</h1>
-  <Toc />
-  <article>
-    <StyledHtml html={articleHtml.toString()} />
-  </article>
+  <TagList tags={post.tags} />
+  {
+    !post.wip ? (
+      <>
+        <Toc />
+        <article>
+          <StyledHtml html={articleHtml.toString()} />
+        </article>
+      </>
+    ) : (
+      <p>この記事はWIP（作成中）です。</p>
+    )
+  }
 </Layout>
 
 <style>

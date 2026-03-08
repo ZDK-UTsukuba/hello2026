@@ -22,15 +22,16 @@ export interface Props {
       url?: string;
     };
   };
+  jsonldExtra?: Record<string, unknown>;
 }
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE } from "../consts";
-const { pageTitle, title, description, og, jsonld } = Astro.props;
+const { pageTitle, title, description, og, jsonld, jsonldExtra } = Astro.props;
 
 const metadata = {
   title: title ?? (pageTitle ? `${pageTitle} - ${SITE_TITLE}` : SITE_TITLE),
-  description: description ?? "新入生情報Web 2025",
+  description: description ?? "新入生情報Web 2026",
   og: {
     type: og?.type ?? "website",
     title:
@@ -53,8 +54,13 @@ const metadata = {
   },
 };
 
-const jsonldStringfy = JSON.stringify({
-  "@type": metadata.jsonld.attype,
+const isArticleType = ["Article", "BlogPosting", "NewsArticle"].includes(
+  metadata.jsonld.attype,
+);
+
+// jsonld props で制御できる共通フィールド。jsonldExtra 使用時にもマージされる
+const commonJsonldFields = {
+  inLanguage: "ja-JP",
   author: [
     {
       "@type": metadata.jsonld.author.attype,
@@ -62,7 +68,37 @@ const jsonldStringfy = JSON.stringify({
       url: metadata.jsonld.author.url,
     },
   ],
+  publisher: {
+    "@type": "Organization",
+    name: "全学学類・専門学群・総合学域群代表者会議",
+    url: "https://www.zdk.tsukuba.ac.jp",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.stb.tsukuba.ac.jp/~zdk/wp-content/uploads/2023/02/cropped-zdk_favicon.png",
+    },
+  },
+};
+
+const jsonldStringfy = JSON.stringify({
+  "@type": metadata.jsonld.attype,
+  ...(isArticleType
+    ? {
+        headline: pageTitle ?? title ?? metadata.title,
+        url: Astro.url.href,
+        isPartOf: {
+          "@type": "WebSite",
+          name: SITE_TITLE,
+          url: Astro.site,
+        },
+      }
+    : { name: metadata.title }),
+  ...commonJsonldFields,
 });
+
+// jsonldExtra が渡された場合は共通フィールドをマージ（jsonldExtra 側が上書き可能）
+const effectiveJsonld = jsonldExtra
+  ? JSON.stringify({ ...commonJsonldFields, ...jsonldExtra })
+  : null;
 ---
 
 <!doctype html>
@@ -80,7 +116,21 @@ const jsonldStringfy = JSON.stringify({
     <meta name="twitter:card" content={metadata.og.twitter.card} />
     <meta property="twitter:site" content={metadata.og.twitter.site} />
     <meta property="twitter:creator" content={metadata.og.twitter.creator} />
-    <script type="application/ld+json" set:html={jsonldStringfy} />
+    {
+      effectiveJsonld ? (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={effectiveJsonld}
+        />
+      ) : (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={jsonldStringfy}
+        />
+      )
+    }
   </head>
   <body>
     <div class="container">
