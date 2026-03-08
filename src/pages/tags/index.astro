@@ -10,7 +10,7 @@ const tags = [...new Set(posts.flatMap((post) => post.tags))];
 
 const tagCounts = tags.map((tag) => ({
   tag,
-  count: posts.filter((post) => post.tags.includes(tag)).length,
+  count: posts.filter((post) => post.tags.includes(tag) && !post.wip).length,
 }));
 ---
 
