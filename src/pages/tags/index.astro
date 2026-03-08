@@ -6,11 +6,11 @@ import Card from "../../components/Card.astro";
 const response = await fetchPosts();
 const posts = response.posts;
 
-const tags = [...new Set(posts.flatMap((post) => post.tags))];
+const tags = [...new Set(posts.flatMap((post) => (post.wip ? [] : post.tags)))];
 
 const tagCounts = tags.map((tag) => ({
   tag,
-  count: posts.filter((post) => post.tags.includes(tag)).length,
+  count: posts.filter((post) => post.tags.includes(tag) && !post.wip).length,
 }));
 ---
 
