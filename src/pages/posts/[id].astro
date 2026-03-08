@@ -41,11 +41,18 @@ const articleHtml = await unified()
   .use(detailsContentMarker)
   .use(rehypeStringify, { allowDangerousHtml: true })
   .process(post.body_md);
+
+const updatedString = ((d) => {
+  return `${d.getFullYear()}-${(d.getMonth() + 1 + "").padStart(2, "0")}-${(d.getDate() + "").padStart(2, "0")}`;
+})(new Date(post.updated_at));
 ---
 
 <Layout pageTitle={post.name} jsonld={{ attype: "Article" }}>
   <h1 class="title">{post.name}</h1>
   <TagList tags={post.tags} />
+  <div class="updated-at">
+    <span><time datetime={post.updated_at}>{updatedString}</time> 更新</span>
+  </div>
   {
     !post.wip ? (
       <>
@@ -67,5 +74,8 @@ const articleHtml = await unified()
     padding-block: 0.1rem;
     border-inline-start: 11px solid var(--theme-color-accent);
     border-block-end: 1px solid var(--border-color);
+  }
+  .updated-at {
+    text-align: end;
   }
 </style>
