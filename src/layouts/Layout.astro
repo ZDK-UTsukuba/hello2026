@@ -21,6 +21,7 @@ export interface Props {
       name?: string;
       url?: string;
     };
+    dateModified?: string;
   };
   jsonldExtra?: Record<string, unknown>;
 }
@@ -28,6 +29,25 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE } from "../consts";
 const { pageTitle, title, description, og, jsonld, jsonldExtra } = Astro.props;
+
+const toISOStringWithTimezone = (date: Date) => {
+  // node に Instant がまだないので
+  const pad2 = (data: number) => ("" + data).padStart(2, "0");
+  const pad4 = (data: number) => ("" + data).padStart(4, "0");
+
+  const dateStr = `${pad4(date.getFullYear())}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+  const time = `${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
+  const timezoneStr = ((timezoneOffset) => {
+    const minutes = -timezoneOffset;
+    const minutesAbs = Math.abs(minutes);
+    const sign = minutes > 0 ? "+" : "-";
+
+    const hour = Math.floor(minutesAbs / 60);
+    const minute = minutesAbs % 60;
+    return `${sign}${pad2(hour)}:${pad2(minute)}`;
+  })(date.getTimezoneOffset());
+  return `${dateStr}T${time}${timezoneStr}`;
+};
 
 const metadata = {
   title: title ?? (pageTitle ? `${pageTitle} - ${SITE_TITLE}` : SITE_TITLE),
@@ -51,6 +71,7 @@ const metadata = {
       name: jsonld?.author?.name ?? "全学学類・専門学群・総合学域群代表者会議",
       url: jsonld?.author?.url ?? "https://www.zdk.tsukuba.ac.jp",
     },
+    dateModified: jsonld?.dateModified ?? toISOStringWithTimezone(new Date()),
   },
 };
 
@@ -90,6 +111,7 @@ const jsonldStringfy = JSON.stringify({
           name: SITE_TITLE,
           url: Astro.site,
         },
+        dateModified: metadata.jsonld.dateModified,
       }
     : { name: metadata.title }),
   ...commonJsonldFields,
