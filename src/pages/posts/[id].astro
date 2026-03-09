@@ -58,7 +58,7 @@ const updatedString = ((d) => {
     return `${Math.floor(diff / (1000 * 60 * 60 * 24))}日前`;
   } else {
     // それ以上前
-    return `${d.getFullYear()}/${(d.getMonth() + 1 + "").padStart(2, "0")}/${(d.getDate() + "").padStart(2, "0")}`;
+    return `${d.getFullYear()}年${(d.getMonth() + 1 + "").padStart(2, "0")}月${(d.getDate() + "").padStart(2, "0")}日`;
   }
 })(new Date(post.updated_at));
 ---
