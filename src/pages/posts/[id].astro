@@ -43,7 +43,23 @@ const articleHtml = await unified()
   .process(post.body_md);
 
 const updatedString = ((d) => {
-  return `${d.getFullYear()}-${(d.getMonth() + 1 + "").padStart(2, "0")}-${(d.getDate() + "").padStart(2, "0")}`;
+  const diff = Date.now() - d.getTime();
+  if (diff < 1000 * 60) {
+    // 1分以内
+    return "たった今";
+  } else if (diff < 1000 * 60 * 60) {
+    // 1時間以内
+    return `${Math.floor(diff / (1000 * 60))}分前`;
+  } else if (diff < 1000 * 60 * 60 * 24) {
+    // 1日以内
+    return `${Math.floor(diff / (1000 * 60 * 60))}時間前`;
+  } else if (diff < 1000 * 60 * 60 * 24 * 30) {
+    // 30日以内
+    return `${Math.floor(diff / (1000 * 60 * 60 * 24))}日前`;
+  } else {
+    // それ以上前
+    return `${d.getFullYear()}/${(d.getMonth() + 1 + "").padStart(2, "0")}/${(d.getDate() + "").padStart(2, "0")}`;
+  }
 })(new Date(post.updated_at));
 ---
 
@@ -51,7 +67,9 @@ const updatedString = ((d) => {
   <h1 class="title">{post.name}</h1>
   <TagList tags={post.tags} />
   <div class="updated-at">
-    <span><time datetime={post.updated_at}>{updatedString}</time> 更新</span>
+    <span>
+      最終更新: <time datetime={post.updated_at}>{updatedString}</time>
+    </span>
   </div>
   {
     !post.wip ? (
