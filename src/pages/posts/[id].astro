@@ -63,7 +63,10 @@ const updatedString = ((d) => {
 })(new Date(post.updated_at));
 ---
 
-<Layout pageTitle={post.name} jsonld={{ attype: "Article" }}>
+<Layout
+  pageTitle={post.name}
+  jsonld={{ attype: "Article", dateModified: post.updated_at }}
+>
   <h1 class="title">{post.name}</h1>
   <TagList tags={post.tags} />
   <div class="updated-at">
