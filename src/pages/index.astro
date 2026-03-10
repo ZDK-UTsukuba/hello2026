@@ -5,6 +5,7 @@ import ArticleCard from "../components/ArticleCard.astro";
 import { getFirstImg } from "../esa-utils/thumbnail";
 import { fetchPost } from "../esa-utils/fetch";
 import Card from "../components/Card.astro";
+import TopPage from "../components/TopPage.astro";
 import * as env from "../env";
 
 const response = await fetchPosts();
@@ -20,6 +21,7 @@ const blogPosts = posts.filter(
 
 <Layout>
   <div class="card-container">
+    <TopPage />
     <h2 class="heading">記事一覧</h2>
     {blogPosts.map((post) => <ArticleCard post={post} />)}
     <h2 class="heading">これってどうなの？</h2>
