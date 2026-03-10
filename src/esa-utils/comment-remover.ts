@@ -1,10 +1,10 @@
-import type { Root } from "hast";
+import type { Root, RootContent } from "hast";
 import { isComment } from "./nodes";
 import { visitParents } from "unist-util-visit-parents";
 
 export function removeComments() {
   return (tree: Root) => {
-    const targets: { parent: { children: any[] }; idx: number }[] = [];
+    const targets: { parent: { children: RootContent[] }; idx: number }[] = [];
 
     visitParents(tree, (node, ancestors) => {
       if (isComment(node)) {
