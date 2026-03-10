@@ -80,3 +80,15 @@ export function isAnchor(node: Node | undefined): node is AnchorNode {
   }
   return true;
 }
+
+export interface CommentNode extends Node {
+  type: "raw";
+  value: string;
+}
+
+export function isComment(node: Node | undefined): node is CommentNode {
+  if (node === undefined) return false;
+  if (!(node.type === "raw" && "value" in node && typeof node.value === "string")) return false;
+  if (!node.value.trimStart().startsWith("<!--")) return false;
+  return true;
+}

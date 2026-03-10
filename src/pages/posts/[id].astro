@@ -12,6 +12,7 @@ import StyledHtml from "../../components/StyledHtml.astro";
 import Toc from "../../components/Toc.astro";
 import { detailsContentMarker } from "../../esa-utils/details-content-marker";
 import { externalLinkReplacer } from "../../esa-utils/external-link-replacer";
+import { removeComments } from "../../esa-utils/comment-remover";
 import * as env from "../../env";
 import TagList from "../../components/TagList.astro";
 
@@ -39,6 +40,7 @@ const articleHtml = await unified()
   .use(imageReplacer)
   .use(externalLinkReplacer)
   .use(detailsContentMarker)
+  .use(removeComments)
   .use(rehypeStringify, { allowDangerousHtml: true })
   .process(post.body_md);
 
