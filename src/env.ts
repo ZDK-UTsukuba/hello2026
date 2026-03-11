@@ -1,5 +1,9 @@
-const esaFaqNumber = +import.meta.env.ESA_FAQ_NUMBER;
+import { MOCK_FAQ_NUMBER } from "./esa-utils/mock-data";
+
 const esaMock = !!import.meta.env.ESA_MOCK;
+const esaFaqNumber = esaMock
+  ? MOCK_FAQ_NUMBER
+  : +import.meta.env.ESA_FAQ_NUMBER;
 const esaPostCategory: string | undefined = import.meta.env.ESA_POST_CATEGORY;
 const esaEndpoint: string | undefined = import.meta.env.ESA_ENDPOINT;
 const esaToken: string | undefined = import.meta.env.ESA_TOKEN;
