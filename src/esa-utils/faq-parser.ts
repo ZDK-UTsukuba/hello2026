@@ -5,6 +5,7 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import { imageReplacer } from "./image-replacer";
 import { externalLinkReplacer } from "./external-link-replacer";
+import { removeComments } from "./comment-remover";
 
 function isH2(node: RootContent): node is Heading {
   return node.type === "heading" && node.depth === 2;
@@ -51,6 +52,7 @@ export async function parseFaqs(ast: Root): Promise<Faq[]> {
       .use(remarkRehype, { allowDangerousHtml: true })
       .use(imageReplacer)
       .use(externalLinkReplacer)
+      .use(removeComments)
       .run(answerRoot);
     const answerHtml = unified()
       .use(rehypeStringify, { allowDangerousHtml: true })
