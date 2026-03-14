@@ -22,7 +22,10 @@ const blogPosts = posts.filter(
 <Layout>
   <div class="card-container">
     <TopPage />
-    <h2 class="heading">記事一覧</h2>
+    <h2 class="heading">
+      <span>記事一覧</span>
+      <a href="/tags" class="search-link">キーワードから探す <span>＞</span></a>
+    </h2>
     {blogPosts.map((post) => <ArticleCard post={post} />)}
     <h2 class="heading">これってどうなの？</h2>
     <Card href="/faq" title="よくある質問" imgSrc={faqImg?.src} />
@@ -36,6 +39,23 @@ const blogPosts = posts.filter(
     padding-block: 0.1rem;
     border-inline-start: 7px solid var(--theme-color-accent);
     border-block-end: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .search-link {
+    font-size: 0.9rem;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    margin-bottom: 0.2rem;
+  }
+  .search-link:hover {
+    color: var(--theme-color-accent);
+  }
+  .search-link span {
+    font-size: 0.8em;
+    margin-left: 0.1rem;
   }
   .card-container {
     display: flex;
