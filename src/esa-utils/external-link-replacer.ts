@@ -13,11 +13,11 @@ function isExternalLink(href: string): boolean {
 }
 
 function isZDKLink(href: string): boolean {
-  const prefixes = [
-    "https://www.zdk.tsukuba.ac.jp/",
-    "https://www.stb.tsukuba.ac.jp/~zdk/",
-  ];
-  return prefixes.some((prefix) => href.startsWith(prefix));
+  const url = new URL(href, import.meta.env.SITE);
+  return (
+    url.host.endsWith("zdk.tsukuba.ac.jp") ||
+    (url.host === "www.stb.tsukuba.ac.jp" && url.pathname.startsWith("/~zdk/"))
+  );
 }
 
 export function externalLinkReplacer() {
