@@ -3,9 +3,9 @@ import type { Node } from "hast";
 import { isAnchor, type AnchorNode } from "./nodes";
 
 function isZDKLink(href: string): boolean {
-    /**
-     * @see https://docs.astro.build/ja/guides/environment-variables/
-     */
+  /**
+   * @see https://docs.astro.build/ja/guides/environment-variables/
+   */
   const url = new URL(href, import.meta.env.SITE);
   return (
     url.host.endsWith("zdk.tsukuba.ac.jp") ||
