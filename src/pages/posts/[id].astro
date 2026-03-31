@@ -43,26 +43,6 @@ const articleHtml = await unified()
   .use(removeComments)
   .use(rehypeStringify, { allowDangerousHtml: true })
   .process(post.body_md);
-
-const updatedString = ((d) => {
-  const diff = Date.now() - d.getTime();
-  if (diff < 1000 * 60) {
-    // 1分以内
-    return "たった今";
-  } else if (diff < 1000 * 60 * 60) {
-    // 1時間以内
-    return `${Math.floor(diff / (1000 * 60))}分前`;
-  } else if (diff < 1000 * 60 * 60 * 24) {
-    // 1日以内
-    return `${Math.floor(diff / (1000 * 60 * 60))}時間前`;
-  } else if (diff < 1000 * 60 * 60 * 24 * 30) {
-    // 30日以内
-    return `${Math.floor(diff / (1000 * 60 * 60 * 24))}日前`;
-  } else {
-    // それ以上前
-    return `${d.getFullYear()}年${(d.getMonth() + 1 + "").padStart(2, "0")}月${(d.getDate() + "").padStart(2, "0")}日`;
-  }
-})(new Date(post.updated_at));
 ---
 
 <Layout
@@ -73,7 +53,9 @@ const updatedString = ((d) => {
   <TagList tags={post.tags} />
   <div class="updated-at">
     <span>
-      最終更新: <time datetime={post.updated_at}>{updatedString}</time>
+      最終更新: <time datetime={post.updated_at} class="updated-date"
+        >{post.updated_at}</time
+      >
     </span>
   </div>
   {
@@ -102,3 +84,39 @@ const updatedString = ((d) => {
     text-align: end;
   }
 </style>
+
+<script>
+  const timeElement = document.querySelector(".updated-date");
+  if (!timeElement) {
+    throw new Error("Updated date element not found");
+  }
+  const updatedAt = timeElement.getAttribute("datetime");
+  if (!updatedAt) {
+    throw new Error("Updated date not found");
+  }
+  const updateTime = () => {
+    const updatedString = ((d) => {
+      const diff = Date.now() - d.getTime();
+      if (diff < 1000 * 60) {
+        // 1分以内
+        return "たった今";
+      } else if (diff < 1000 * 60 * 60) {
+        // 1時間以内
+        return `${Math.floor(diff / (1000 * 60))}分前`;
+      } else if (diff < 1000 * 60 * 60 * 24) {
+        // 1日以内
+        return `${Math.floor(diff / (1000 * 60 * 60))}時間前`;
+      } else if (diff < 1000 * 60 * 60 * 24 * 30) {
+        // 30日以内
+        return `${Math.floor(diff / (1000 * 60 * 60 * 24))}日前`;
+      } else {
+        // それ以上前
+        return `${d.getFullYear()}年${(d.getMonth() + 1 + "").padStart(2, "0")}月${(d.getDate() + "").padStart(2, "0")}日`;
+      }
+    })(new Date(updatedAt));
+
+    timeElement.textContent = updatedString;
+  };
+  updateTime();
+  setInterval(updateTime, 1000 * 60);
+</script>
